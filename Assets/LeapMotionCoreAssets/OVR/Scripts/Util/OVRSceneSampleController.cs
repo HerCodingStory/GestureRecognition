@@ -119,7 +119,11 @@ public class OVRSceneSampleController : MonoBehaviour
 			Cursor.lockState = CursorLockMode.Locked;
 #else
             Cursor.visible = false;
+<<<<<<< HEAD
             Screen.lockCursor = true;
+=======
+            Cursor.lockState = CursorLockMode.Locked;
+>>>>>>> a43d92fe2a0432af13bef55c4aa5a39936b09413
 #endif
         }
 
