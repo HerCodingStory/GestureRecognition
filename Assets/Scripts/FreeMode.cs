@@ -6,7 +6,7 @@ using Leap;
 public class FreeMode : MonoBehaviour
 {
     [SerializeField]
-    private Classifier gestureClassifier;
+    private GestureClassifier gestureClassifier;
 
     [SerializeField]
     private HandController handController;
@@ -18,8 +18,11 @@ public class FreeMode : MonoBehaviour
 
     public readonly static string coroutineName = "freeMode";
 
+    private FeatureVectorPreprocessor featureVectorPreprocessor;
+
     public void startFreeMode()
     {
+        featureVectorPreprocessor = new FeatureVectorPreprocessor();
         StartCoroutine(coroutineName);
     }
 
@@ -29,9 +32,10 @@ public class FreeMode : MonoBehaviour
         {
             Frame frame = handController.GetFrame();
 
-            if(frame.Hands.Count > 0)
+            if(gestureClassifier.ModelExists && frame.Hands.Count > 0)
             {
-                GestureSign = gestureClassifier.classifyGesture(frame);
+                FeatureVector featureVector = featureVectorPreprocessor.createFeatureVector(frame);
+                GestureSign = gestureClassifier.classifyGesture(featureVector.createInputVector());
             }
 
             yield return null;

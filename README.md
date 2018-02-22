@@ -11,3 +11,4 @@ Leap Motion Device
 ## Contributors
 *Cristina Villarroel*
 *Luis Averhoff*
+*Fernando Serrano*
