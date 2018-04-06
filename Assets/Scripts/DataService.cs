@@ -46,16 +46,19 @@ public class DataService : MonoBehaviour
     {
         using (SQLiteConnection connection = new SQLiteConnection(databasePath))
         {
-            return connection.Table<FeatureVector>().OrderBy(vector => vector.GestureClassLabel).ToList(); ;
+            return connection.Table<FeatureVector>().OrderBy(vector => vector.GestureClassLabel).ToList();
         }
     }
 
-    // Insert feature vector in the database
-    public void InsertGesture(FeatureVector gesture)
+    // Insert feature vectors in the database
+    public void InsertFeatureVectors(List<FeatureVector> featureVectors)
     {
         using (SQLiteConnection connection = new SQLiteConnection(databasePath))
         {
-            connection.Insert(gesture);
+            foreach(FeatureVector featureVector in featureVectors)
+            {
+                connection.Insert(featureVector);
+            }
         }  
     }
 

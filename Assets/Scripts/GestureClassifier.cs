@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
-using Accord.MachineLearning.VectorMachines;
 using UnityEngine;
 using Accord.IO;
 using System.IO;
-using Accord.MachineLearning.VectorMachines.Learning;
-using Accord.Statistics.Kernels;
-using Accord.MachineLearning.Performance;
-using Accord.Math.Optimization.Losses;
+using Accord.MachineLearning.DecisionTrees;
 using Accord.Statistics.Analysis;
 using Accord.MachineLearning;
+using Accord.Math.Distances;
+using Accord.MachineLearning.VectorMachines;
+using Accord.Statistics.Kernels;
+using Accord.MachineLearning.VectorMachines.Learning;
 
 public class GestureClassifier : MonoBehaviour
 {
     [SerializeField]
     private DataService dataService;
 
-    private MulticlassSupportVectorMachine<Gaussian> multiSVM;
+    private RandomForest classifier;
 
     [SerializeField]
     private string modelName;
@@ -26,7 +26,11 @@ public class GestureClassifier : MonoBehaviour
     public bool TrainingFinished { get; set; }
 
     [SerializeField]
-    private bool PeformValidationTests = false;
+    private bool calculateAccuracy;
+
+    [SerializeField]
+    private List<int> testOutputs;
+    private List<double[]> testInputs;
 
     private void Start()
     {
@@ -51,8 +55,13 @@ public class GestureClassifier : MonoBehaviour
 
         if (File.Exists(modelPath))
         {
-            multiSVM = loadModel();
+            classifier = loadModel();
             ModelExists = true;
+        }
+
+        if(calculateAccuracy)
+        {
+            testInputs = new List<double[]>();
         }
     }
 
@@ -60,11 +69,15 @@ public class GestureClassifier : MonoBehaviour
     {
         List<FeatureVector> featureVectors = dataService.getAllFeatureVectors();
 
-        double[][] inputs = new double[featureVectors.Count][];
+        double [][] inputs = new double[featureVectors.Count][];
         int[] outputs = new int[featureVectors.Count];
 
         createInputsAndOutputs(inputs, outputs, featureVectors);
 
+        
+        // Code For creating a MulticlassSupportVectorMachine
+        // Create the multi-class learning algorithm for the machine
+        /*
         var teacher = new MulticlassSupportVectorLearning<Gaussian>()
         {
             // Configure the learning algorithm to use SMO to train the
@@ -77,7 +90,9 @@ public class GestureClassifier : MonoBehaviour
             }
         };
 
+        // Learn a machine
         var machine = teacher.Learn(inputs, outputs);
+
 
         // Create the multi-class learning algorithm for the machine
         var calibration = new MulticlassSupportVectorLearning<Gaussian>()
@@ -91,16 +106,57 @@ public class GestureClassifier : MonoBehaviour
             }
         };
 
-        multiSVM = calibration.Learn(inputs, outputs);
+        classifier = calibration.Learn(inputs, outputs);*/
 
-        if(PeformValidationTests)
+        // Code for creating a KNN classifier
+        /*
+        int K = (int)(Mathf.Sqrt(inputs.GetLength(0)) / 2.0f);
+        classifier = new KNearestNeighbors(k: K, distance: new Euclidean());
+        classifier.Learn(inputs, outputs);*/
+        
+
+        // Code For creating a random forest classifier.
+        
+        // Create the forest learning algorithm
+        var teacher = new RandomForestLearning()
         {
-            splitSetValidation(inputs, outputs);
-            crossValidation(inputs, outputs, 10);
-        }
+            NumberOfTrees = 50,
+        };
+
+        classifier = teacher.Learn(inputs, outputs);
 
         saveModel();
         TrainingFinished = true;
+    }
+
+    public string classifyGesture(double[] inputVector)
+    {
+        int gestureClassLabel = classifier.Decide(inputVector);
+
+        if(calculateAccuracy)
+        {
+            testInputs.Add(inputVector);
+
+            if (testInputs.Count == testOutputs.Count)
+            {
+                calculateConfusionMatrix();
+            }
+        }
+
+        return dataService.classLabelToGesture(gestureClassLabel);
+    }
+
+    private void calculateConfusionMatrix()
+    {
+        GeneralConfusionMatrix cm = GeneralConfusionMatrix.Estimate(classifier, testInputs.ToArray(), testOutputs.ToArray());
+
+        double error = cm.Error; 
+        double accuracy = cm.Accuracy;
+
+        Debug.Log("Error - " + error);
+        Debug.Log("Accuracy - " + accuracy);
+
+        testInputs.Clear();
     }
 
     private void createInputsAndOutputs(double[][] inputs, int[] outputs, List<FeatureVector> featureVectors)
@@ -112,68 +168,13 @@ public class GestureClassifier : MonoBehaviour
         }
     }
 
-    public string classifyGesture(double[] distanceVector)
-    {
-        int gestureClassLabel = multiSVM.Decide(distanceVector);
-        return dataService.classLabelToGesture(gestureClassLabel);
-    }
-
-    private void splitSetValidation(double [][] inputs, int [] outputs)
-    {
-        var splitset = new SplitSetValidation<MulticlassSupportVectorMachine<Gaussian>, double[]>()
-        {
-            Learner = (s) => new MulticlassSupportVectorLearning<Gaussian>()
-            {
-                Learner = (m) => new SequentialMinimalOptimization<Gaussian>()
-                {
-                    UseComplexityHeuristic = true,
-                }
-            },
-
-            Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
-        };
-
-        var result = splitset.Learn(inputs, outputs);
-
-        Debug.Log(result.Training.Value);
-        Debug.Log(result.Validation.Value);
-    }
-
-    private void crossValidation(double[][] inputs, int[] outputs, int fold)
-    {
-        var crossValidation = new CrossValidation<MulticlassSupportVectorMachine<Gaussian>, double[]>()
-        {
-            K = fold,
-
-            Learner = (s) => new MulticlassSupportVectorLearning<Gaussian>()
-            {
-                Learner = (m) => new SequentialMinimalOptimization<Gaussian>()
-                {
-                    UseComplexityHeuristic = true,
-                }
-            },
-
-            Loss = (expected, actual, p) => new ZeroOneLoss(expected).Loss(actual),
-        };
-
-        var result = crossValidation.Learn(inputs, outputs);
-
-        Debug.Log(result.Training.Mean);
-        Debug.Log(result.Validation.Mean);
-
-        GeneralConfusionMatrix gcm = result.ToConfusionMatrix(inputs, outputs);
-
-        Debug.Log(gcm.Accuracy);
-        Debug.Log(gcm.Error);
-    }
-
     private void saveModel()
     {
-        multiSVM.Save(modelPath);
+        classifier.Save(modelPath);
     }
 
-    private MulticlassSupportVectorMachine<Gaussian> loadModel()
+    protected RandomForest loadModel()
     {
-        return Serializer.Load<MulticlassSupportVectorMachine<Gaussian>>(modelPath);
+        return Serializer.Load<RandomForest>(modelPath);
     }
 }

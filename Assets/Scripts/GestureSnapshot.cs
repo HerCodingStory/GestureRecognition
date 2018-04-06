@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using Leap.Unity;
+using System.Linq;
 
 [RequireComponent(typeof(ToggleableObject))]
 public class GestureSnapshot : MonoBehaviour
@@ -36,7 +38,9 @@ public class GestureSnapshot : MonoBehaviour
     private KeyCode resetSnapshotKey = KeyCode.R;
 
     [SerializeField]
-    private HandController handController;
+    private GameObject leapController;
+
+    private LeapServiceProvider leapControllerProvider;
 
     private List<Frame> gestureFrames;
 
@@ -48,6 +52,10 @@ public class GestureSnapshot : MonoBehaviour
     private bool lastActiveViewState;
     private bool isGatheringFrames;
     private float recordingTimer;
+
+    [SerializeField]
+    [Range(1.0f, 5.0f)]
+    private float recordingTime;
 
     [SerializeField]
     private ModalDialog errorModalDialog;
@@ -73,6 +81,8 @@ public class GestureSnapshot : MonoBehaviour
 
     private void Start()
     {
+        leapControllerProvider = leapController.GetComponent<LeapServiceProvider>();
+
         gestureInputFieldPlaceHolderText = gestureInputField.placeholder.GetComponent<Text>();
         buttonAudioSource = GetComponent<AudioSource>();
 
@@ -80,7 +90,7 @@ public class GestureSnapshot : MonoBehaviour
         lastActiveViewState = true;
 
         isGatheringFrames = false;
-        recordingTimer = 5.0f;
+        recordingTimer = recordingTime;
 
         gestureFrames = new List<Frame>();
 
@@ -126,7 +136,7 @@ public class GestureSnapshot : MonoBehaviour
 
     private void gatherGestureFrames()
     {
-        Frame frame = handController.GetFrame();
+        Frame frame = leapControllerProvider.GetLeapController().Frame();
 
         if (frame.Hands.Count > 0)
         {
@@ -138,7 +148,7 @@ public class GestureSnapshot : MonoBehaviour
         if (recordingTimer < 0)
         {
             isGatheringFrames = false;
-            recordingTimer = 5.0f;
+            recordingTimer = recordingTime;
             GestureInputInteractable = true;
             GestureSubmitButtonInteractable = true;
             lastActiveViewState = true;
@@ -193,37 +203,28 @@ public class GestureSnapshot : MonoBehaviour
 
     private void processGestureFrames(string gestureName)
     {
-        /*
-         * I'm assuming that each frame is the same gesture and that the user didn't
-         * change gesture in any of them. This means that the class label is the same
-         * and I should call the gesture to class function once.
-         */
-        int gestureClassLabel = -1;
+        int gestureClassLabel = dataService.gestureToClassLabel(gestureName);
+
+        FeatureVectorPreprocessor featureVectorPreProcessor = new FeatureVectorPreprocessor();
+        List<FeatureVector> featureVectors = new List<FeatureVector>();
 
         foreach (Frame gestureFrame in gestureFrames)
         {
-            FeatureVectorPreprocessor featureVectorPreProcessor = new FeatureVectorPreprocessor();
-
             FeatureVector featureVector = featureVectorPreProcessor.createFeatureVector(gestureFrame);
-
+            featureVector.GestureClassLabel = gestureClassLabel;
             featureVector.Gesture = gestureName;
 
-            if (gestureClassLabel == -1)
-            {
-                gestureClassLabel = dataService.gestureToClassLabel(gestureName);
-            }
-
-            featureVector.GestureClassLabel = gestureClassLabel;
-
-            dataService.InsertGesture(featureVector);
+            featureVectors.Add(featureVector);
         }
+
+        dataService.InsertFeatureVectors(featureVectors);
 
         gestureFrames.Clear();
     }
 
     private IEnumerator resetText()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         GestureStatusText = "";
     }
 

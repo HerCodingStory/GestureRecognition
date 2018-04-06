@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Leap.Unity;
 using Leap;
 
 public class FreeMode : MonoBehaviour
 {
     [SerializeField]
-    private GestureClassifier gestureClassifier;
+    private GestureClassifier classifier;
 
     [SerializeField]
-    private HandController handController;
+    private GameObject leapController;
+
+    private LeapServiceProvider leapControllerProvider;
 
     [SerializeField]
     private Text gestureSignText;
@@ -20,8 +23,11 @@ public class FreeMode : MonoBehaviour
 
     private FeatureVectorPreprocessor featureVectorPreprocessor;
 
+    private bool gestureVerified = false;
+
     public void startFreeMode()
     {
+        leapControllerProvider = leapController.GetComponent<LeapServiceProvider>();
         featureVectorPreprocessor = new FeatureVectorPreprocessor();
         StartCoroutine(coroutineName);
     }
@@ -30,13 +36,19 @@ public class FreeMode : MonoBehaviour
     {
         while (true)
         {
-            Frame frame = handController.GetFrame();
+            Frame frame = leapControllerProvider.GetLeapController().Frame();
 
-            if(gestureClassifier.ModelExists && frame.Hands.Count > 0)
+            if (classifier.ModelExists && frame.Hands.Count > 0)
             {
-                FeatureVector featureVector = featureVectorPreprocessor.createFeatureVector(frame);
-                GestureSign = gestureClassifier.classifyGesture(featureVector.createInputVector());
+                if (!gestureVerified)
+                {
+                    FeatureVector featureVector = featureVectorPreprocessor.createFeatureVector(frame);
+                    GestureSign = classifier.classifyGesture(featureVector.createInputVector());
+                    gestureVerified = true;
+                }
             }
+            else
+                gestureVerified = false;
 
             yield return null;
         }

@@ -1,73 +1,66 @@
-﻿using Accord.Statistics;
-using Leap;
+﻿using Leap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
+using Leap.Unity;
 
 public class FeatureVectorPreprocessor
 {
     /*
      * This function creates a vector containing the distance between the palm of the hand 
-     * and tip of each finger. It also constructs the distances between adjacent fingers,
-     * how many fingers are extended, the pinch strength and the grab strength of the hand,
-     * and the sphere radius of the hand.
+     * and tip of each finger. It also constructs the distances between adjacent fingers.
+     * All the distances are normalized based on the max and min distances from the fingertip
+     * and the max and min distances between adjacent fingers.
      */
     public FeatureVector createFeatureVector(Frame frame)
     {
-        List<double> featureVectorList = new List<double>();
+        List<double> palmToFingerFeatureVector = new List<double>();
+        calculatePalmToFingerDistances(palmToFingerFeatureVector, frame);
+        //List<double> palmToFingerNormalizedFeatureVector = normalizeFeatureVector(palmToFingerFeatureVector);
 
-        calculatePalmToFingerDistances(featureVectorList, frame);
+        List<double> adjacentFingerFeatureVector = new List<double>();
+        calculateAdjacentFingerDistances(adjacentFingerFeatureVector, frame);
+        //List<double> adjacentFingerNormalizedFeatureVector = normalizeFeatureVector(adjacentFingerFeatureVector);
 
-        calculateAdjacentFingerDistances(featureVectorList, frame);
+        List<double> completeFeatureVector = new List<double>();
 
-        calculateHandToFingerDistances(featureVectorList, frame);
+        foreach(double feature in palmToFingerFeatureVector)
+        {
+            completeFeatureVector.Add(feature);
+        }
 
-        double [] centered = Tools.Center(featureVectorList.ToArray<double>());
-        List<double> standardizedVectorList = Tools.Standardize(centered).ToList();
+        foreach (double feature in adjacentFingerFeatureVector)
+        {
+            completeFeatureVector.Add(feature);
+        }
 
-        getMiscellaneousFeatures(standardizedVectorList, frame);
+        calculateFingerBending(completeFeatureVector, frame);
 
-        FeatureVector featureVector = constructFeatureVector(standardizedVectorList);
-
-        featureVector.NumExtendedFingers = getNumExtendedFingers(frame);
-
-        return featureVector;
+        return constructFeatureVectorFromProperties(completeFeatureVector);
     }
 
-    private FeatureVector constructFeatureVector(List<double> standardizedVectorList)
+    private FeatureVector constructFeatureVectorFromProperties(List<double> standardizedVectorList)
     {
         FeatureVector featureVector = new FeatureVector();
 
         Type type = featureVector.GetType();
         PropertyInfo[] properties = type.GetProperties();
 
-        int propertyIndex = 0;
-
         /*
-         * The minus 4 is so we skip the last 4 properties
+         * The minus 3 is so we skip the last 3 properties
          * in the feature vector class. Those get assigned 
          * when the user assigns a name to the gesture. 
          */
 
-        for (int i = 0; i < properties.Length - 4; i++)
+        for (int propertyIndex = 0; propertyIndex < properties.Length - 3; propertyIndex++)
         {
-            PropertyInfo property = properties[i];
+            PropertyInfo property = properties[propertyIndex];
             property.SetValue(featureVector, standardizedVectorList[propertyIndex], null);
-            propertyIndex++;
         }
 
         return featureVector;
-    }
-
-    private Matrix createHandTransform(Hand hand)
-    {
-        Vector handXBasis = hand.PalmNormal.Cross(hand.Direction).Normalized;
-        Vector handYBasis = -hand.PalmNormal;
-        Vector handZBasis = -hand.Direction;
-        Vector handOrigin = hand.PalmPosition;
-        Matrix handTransform = new Matrix(handXBasis, handYBasis, handZBasis, handOrigin);
-        return handTransform.RigidInverse();
     }
 
     /*
@@ -81,14 +74,12 @@ public class FeatureVectorPreprocessor
     {
         foreach (Hand hand in frame.Hands)
         {
-            Matrix handTransform = createHandTransform(hand);
+            Vector palmPosition = new Vector(hand.PalmPosition.x, hand.PalmPosition.y, 0);
 
             foreach (Finger finger in hand.Fingers)
             {
-                Vector transformedTipPosition = handTransform.TransformPoint(finger.TipPosition);
-                Vector transformedPalmPosition = handTransform.TransformPoint(hand.PalmPosition);
-
-                featureVectorList.Add(transformedTipPosition.DistanceTo(transformedPalmPosition) / hand.SphereRadius);
+                Vector tipPosition = new Vector(finger.TipPosition.x, finger.TipPosition.y, 0);
+                featureVectorList.Add(tipPosition.DistanceTo(palmPosition));
             }
         }
     }
@@ -104,85 +95,52 @@ public class FeatureVectorPreprocessor
     {
         foreach (Hand hand in frame.Hands)
         {
-            Matrix handTransform = createHandTransform(hand);
-
             for (int i = hand.Fingers.Count - 1; i > 0; i--)
             {
-                Vector currentFinger = hand.Fingers[i].TipPosition - hand.PalmPosition;
-                Vector previousFinger = hand.Fingers[i - 1].TipPosition - hand.PalmPosition;
+                Vector currentFinger = hand.Fingers[i].TipPosition;
+                currentFinger.z = 0;
 
-                Vector transformedCurrTipPosition = handTransform.TransformPoint(currentFinger);
-                Vector transformedPrevTipPosition = handTransform.TransformPoint(previousFinger);
+                Vector previousFinger = hand.Fingers[i - 1].TipPosition;
+                previousFinger.z = 0;
 
-                featureVectorList.Add(transformedCurrTipPosition.DistanceTo(transformedPrevTipPosition) / hand.SphereRadius);
+                featureVectorList.Add(currentFinger.DistanceTo(previousFinger));
             }
         }
     }
 
-    /*
-     * featureVectorList[9] = ThumbToHandNormal Distance
-     * featureVectorList[10] = IndexToHandNormal Distance
-     * featureVectorList[11] = MiddleToHandNormal Distance
-     * featureVectorList[12] = RingToHandNormal Distance
-     * featureVectorList[13] = PinkyToHandNormal Distance
-     */
-    private void calculateHandToFingerDistances(List<double> featureVectorList, Frame frame)
+    private List<double> normalizeFeatureVector(List<double> featureVector)
     {
+        List<double> normalizedFeatureVector = new List<double>();
+
+        double minDistance = featureVector.Min();
+        double maxDistance = featureVector.Max() - minDistance;
+
+        foreach (float distance in featureVector)
+        {
+            normalizedFeatureVector.Add(normalizeDistance(distance, minDistance, maxDistance));
+        }
+
+        return normalizedFeatureVector;
+    }
+
+    private double normalizeDistance(double distance, double minDistance, double maxDistance)
+    {
+        return Math.Round((distance - minDistance) / maxDistance, 5);
+    }
+
+    private void calculateFingerBending(List<double> featureVectorList, Frame frame)
+    {
+        int boneIndex = 1;
+
         foreach (Hand hand in frame.Hands)
         {
             foreach (Finger finger in hand.Fingers)
             {
-                double angle = getFingerAngle(hand, finger);
+                Vector3 boneDir1 = finger.bones[boneIndex].Direction.ToVector3();
+                Vector3 boneDir2 = finger.bones[boneIndex + 1].Direction.ToVector3();
 
-                double curFingerMag = finger.Direction.Magnitude;
-                double handNormMag = hand.Direction.Magnitude;
-
-                double distance = Math.Pow(curFingerMag, 2) + Math.Pow(handNormMag, 2) +
-                                  - 2 * curFingerMag * handNormMag * angle;
-
-                featureVectorList.Add(distance / hand.SphereRadius);
+                featureVectorList.Add(Vector3.Angle(boneDir1, boneDir2));
             }
         }
-    }
-
-    private double getFingerAngle(Hand hand, Finger finger)
-    {
-        Vector handZDirection = -hand.Basis.zBasis;
-        Vector fingerTip = -finger.Bone(Bone.BoneType.TYPE_DISTAL).Basis.zBasis;
-
-        double rawangle = handZDirection.AngleTo(fingerTip) * 180 / Math.PI;
-
-        Vector crossBones = handZDirection.Cross(fingerTip);
-        Vector boneXBasis = finger.Bone(Bone.BoneType.TYPE_METACARPAL).Basis.xBasis;
-
-        if (hand.IsLeft)
-            boneXBasis = -boneXBasis;
-
-        int sign = (crossBones.Dot(boneXBasis) >= 0) ? 1 : -1;
-
-        return sign * rawangle;
-    }
-
-    /*
-     * featureVectorList[14] = RadiusSphere
-     * featureVectorList[15] = PinchStrength
-     * featureVectorList[16] = GrabStrength
-     */
-    private void getMiscellaneousFeatures(List<double> featureVectorList, Frame frame)
-    {
-        foreach (Hand hand in frame.Hands)
-        {
-            featureVectorList.Add(hand.SphereRadius);
-            featureVectorList.Add(hand.PinchStrength);
-            featureVectorList.Add(hand.GrabStrength);
-        }
-    }
-
-    /*
-    * featureVectorList[17] = NumExtendedFingers
-    */
-    private int getNumExtendedFingers(Frame frame)
-    {
-        return frame.Fingers.Extended().Count;
     }
 }

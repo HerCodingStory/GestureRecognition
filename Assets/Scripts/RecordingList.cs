@@ -8,9 +8,6 @@ public class RecordingList : MonoBehaviour
     private Dropdown recordingFilesDropDown;
 
     [SerializeField]
-    private HandController handController;
-
-    [SerializeField]
     private GestureRecording recordingControls;
 
     private List<string> recordingFilePaths;

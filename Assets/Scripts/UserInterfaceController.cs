@@ -2,6 +2,7 @@
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using Leap.Unity;
 
 public class UserInterfaceController : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class UserInterfaceController : MonoBehaviour
     private Animator userInterfaceViewAnimator;
 
     [SerializeField]
-    private HandController handController;
+    private GameObject leapController;
+
+    private LeapServiceProvider leapControllerProvider;
 
     [SerializeField]
     private GestureSnapshot snapshotControls;
@@ -29,7 +32,7 @@ public class UserInterfaceController : MonoBehaviour
     private FreeMode freeMode;
 
     [SerializeField]
-    private GestureClassifier gestureClassifier;
+    private GestureClassifier classifier;
 
     [SerializeField]
     private GameObject trainingClassifierBackground;
@@ -47,6 +50,7 @@ public class UserInterfaceController : MonoBehaviour
 
     private void Start()
     {
+        leapControllerProvider = leapController.GetComponent<LeapServiceProvider>();
         buttonAudioSource = GetComponent<AudioSource>();
         freeMode.startFreeMode();
         recordingControls.enabled = false;
@@ -56,7 +60,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         buttonAudioSource.PlayOneShot(buttonClickSound);
 
-        if (!handController.IsConnected())
+        if (!leapControllerProvider.IsConnected())
             return;
     }
 
@@ -64,7 +68,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         buttonAudioSource.PlayOneShot(buttonClickSound);
 
-        if (!handController.IsConnected())
+        if (!leapControllerProvider.IsConnected())
             return;
 
         userInterfaceViewAnimator.SetTrigger(animationTriggers[2]);
@@ -80,7 +84,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         buttonAudioSource.PlayOneShot(buttonClickSound);
 
-        if (!handController.IsConnected())
+        if (!leapControllerProvider.IsConnected())
             return;
 
         userInterfaceViewAnimator.SetTrigger(animationTriggers[0]);
@@ -95,7 +99,7 @@ public class UserInterfaceController : MonoBehaviour
     {
         buttonAudioSource.PlayOneShot(buttonClickSound);
 
-        if (!handController.IsConnected())
+        if (!leapControllerProvider.IsConnected())
             return;
 
         StartCoroutine(startTraining());
@@ -107,13 +111,13 @@ public class UserInterfaceController : MonoBehaviour
         loadingCircle.SetActive(true);
         trainingStatusText.text = "Training Classifier...";
 
-        gestureClassifier.ModelExists = false;
-        gestureClassifier.TrainingFinished = false;
+        classifier.ModelExists = false;
+        classifier.TrainingFinished = false;
 
-        Thread trainingThread = new Thread(gestureClassifier.trainClassifier);
+        Thread trainingThread = new Thread(classifier.trainClassifier);
         trainingThread.Start();
 
-        while(!gestureClassifier.TrainingFinished)
+        while (!classifier.TrainingFinished)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -126,7 +130,7 @@ public class UserInterfaceController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         trainingClassifierBackground.SetActive(false);
-        gestureClassifier.ModelExists = true;
+        classifier.ModelExists = true;
     }
 
     public void snapShotViewToGestureView()
@@ -149,11 +153,12 @@ public class UserInterfaceController : MonoBehaviour
         buttonAudioSource.PlayOneShot(buttonClickSound);
         userInterfaceViewAnimator.SetTrigger(animationTriggers[3]);
 
+        /*
         if (handController.GetLeapRecorder().state != RecorderState.Stopped)
         {
             handController.ResetRecording();
             handController.StopRecording();
-        }
+        }*/
 
         recordingControls.RecordingSavedPathText = "";
         recordingControls.RecordingFileInputText = "";

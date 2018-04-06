@@ -19,9 +19,6 @@ public class GestureRecording : MonoBehaviour
     [SerializeField] private KeyCode pausePlaybackKey = KeyCode.P;
     [SerializeField] private KeyCode stopPlaybackKey = KeyCode.S;
 
-    [SerializeField]
-    private HandController handController;
-
     private ToggleableObject toggleableObject;
 
     [SerializeField]
@@ -73,6 +70,7 @@ public class GestureRecording : MonoBehaviour
     {
         if (controlsText != null) controlsText.text = header + "\n\n" + toggleableObject.toggleKey + " - Toggle view\n";
 
+        /*
         switch (handController.GetLeapRecorder().state)
         {
             case RecorderState.Recording:
@@ -90,7 +88,7 @@ public class GestureRecording : MonoBehaviour
                 allowBeginRecording();
                 allowBeginPlayback();
                 break;
-        }
+        }*/
 
 
         if (Input.GetKeyDown(toggleableObject.toggleKey) && !recordingFileInputField.isFocused)
@@ -104,6 +102,7 @@ public class GestureRecording : MonoBehaviour
         else
             recordingFileInputFieldPlaceHolderText.text = "Enter Recording Name...";
 
+        /*
         if (handController.GetLeapRecorder().state == RecorderState.Playing &&
             handController.GetRecordingProgress() == 1.0f)
         {
@@ -111,7 +110,7 @@ public class GestureRecording : MonoBehaviour
             toggleableObject.toggleObject(lastActiveViewState);
             handController.StopRecording();
             backgroundMaterial.SetFloat("_ColorSpaceGamma", 1.99f);
-        }
+        }*/
     }
 
     private void allowBeginRecording()
@@ -123,8 +122,8 @@ public class GestureRecording : MonoBehaviour
             lastActiveViewState = false;
             toggleableObject.toggleObject(lastActiveViewState);
 
-            handController.ResetRecording();
-            handController.Record();
+            //handController.ResetRecording();
+            //handController.Record();
 
             RecordingSavedPathText = "";
         }
@@ -142,7 +141,7 @@ public class GestureRecording : MonoBehaviour
                 lastActiveViewState = false;
                 toggleableObject.toggleObject(lastActiveViewState);
 
-                handController.PlayRecording();
+                //handController.PlayRecording();
             }
         }
     }
@@ -155,7 +154,7 @@ public class GestureRecording : MonoBehaviour
         {
             lastActiveViewState = true;
             toggleableObject.toggleObject(lastActiveViewState);
-            handController.StopRecording();
+            //handController.StopRecording();
             RecordingInputInteractable = true;
             RecordingSubmitButtonInteractable = true;
         }
@@ -167,7 +166,7 @@ public class GestureRecording : MonoBehaviour
 
         if (Input.GetKeyDown(pausePlaybackKey))
         {
-            handController.PauseRecording();
+            //handController.PauseRecording();
         }
     }
 
@@ -181,7 +180,7 @@ public class GestureRecording : MonoBehaviour
             lastActiveViewState = true;
             toggleableObject.toggleObject(lastActiveViewState);
 
-            handController.StopRecording();
+            //handController.StopRecording();
         }
     }
 
@@ -195,7 +194,7 @@ public class GestureRecording : MonoBehaviour
         {
             SavedPath = RecordingDirectory + recordingFileName + ".bytes";
             CurrentRecordingFilePath = SavedPath;
-            handController.GetLeapRecorder().SaveToNewFile(CurrentRecordingFilePath);
+            //handController.GetLeapRecorder().SaveToNewFile(CurrentRecordingFilePath);
             string condensedPath = shortenPath(CurrentRecordingFilePath);
             RecordingSavedPathText = "Recording saved to: " + condensedPath;
 
@@ -257,9 +256,9 @@ public class GestureRecording : MonoBehaviour
 
         if (!FileLoaded)
         {
-            byte [] recordingFileBytes = File.ReadAllBytes(CurrentRecordingFilePath);
+            //byte [] recordingFileBytes = File.ReadAllBytes(CurrentRecordingFilePath);
             FileLoaded = true;
-            handController.GetLeapRecorder().Load(recordingFileBytes);
+            //handController.GetLeapRecorder().Load(recordingFileBytes);
         }
 
         return true;

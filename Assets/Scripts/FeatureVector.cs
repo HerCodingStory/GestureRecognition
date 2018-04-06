@@ -14,15 +14,11 @@ public class FeatureVector
     public double RingToMiddleDistance { get; set; }
     public double MiddleToIndexDistance { get; set; }
     public double IndexToThumbDistance { get; set; }
-    public double ThumbToHandNormalDistance { get; set; }
-    public double IndexToHandNormalDistance { get; set; }
-    public double MiddleToHandNormalDistance { get; set; }
-    public double RingToHandNormalDistance { get; set; }
-    public double PinkyToHandNormalDistance { get; set; }
-    public double RadiusSphere { get; set; }
-    public double PinchStrength { get; set; }
-    public double GrabStrength { get; set; }
-    public int NumExtendedFingers { get; set; }
+    public double ThumbFingerBending { get; set; }
+    public double IndexFingerBending { get; set; }
+    public double MiddleFingerBending { get; set; }
+    public double RingFingerBending { get; set; }
+    public double PinkyFingerBending { get; set; }
     public string Gesture { get; set; }
     public int GestureClassLabel { get; set; }
     [PrimaryKey, AutoIncrement]
@@ -33,9 +29,8 @@ public class FeatureVector
         return new double []
         {
             PalmToThumbDistance, PalmToIndexDistance, PalmToMiddleDistance, PalmToRingDistance, PalmToPinkyDistance,
-            IndexToThumbDistance, RingToMiddleDistance, MiddleToIndexDistance, PinkyToRingDistance,
-            ThumbToHandNormalDistance, IndexToHandNormalDistance, MiddleToHandNormalDistance, RingToHandNormalDistance, PinkyToHandNormalDistance,
-            RadiusSphere, NumExtendedFingers, PinchStrength, GrabStrength
+            IndexToThumbDistance, RingToMiddleDistance, MiddleToIndexDistance, PinkyToRingDistance, ThumbFingerBending,
+            IndexFingerBending, MiddleFingerBending, RingFingerBending, PinkyFingerBending
         };
     }
 
