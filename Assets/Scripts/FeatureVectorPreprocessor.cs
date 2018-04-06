@@ -18,20 +18,20 @@ public class FeatureVectorPreprocessor
     {
         List<double> palmToFingerFeatureVector = new List<double>();
         calculatePalmToFingerDistances(palmToFingerFeatureVector, frame);
-        //List<double> palmToFingerNormalizedFeatureVector = normalizeFeatureVector(palmToFingerFeatureVector);
+        List<double> palmToFingerNormalizedFeatureVector = normalizeFeatureVector(palmToFingerFeatureVector);
 
         List<double> adjacentFingerFeatureVector = new List<double>();
         calculateAdjacentFingerDistances(adjacentFingerFeatureVector, frame);
-        //List<double> adjacentFingerNormalizedFeatureVector = normalizeFeatureVector(adjacentFingerFeatureVector);
+        List<double> adjacentFingerNormalizedFeatureVector = normalizeFeatureVector(adjacentFingerFeatureVector);
 
         List<double> completeFeatureVector = new List<double>();
 
-        foreach(double feature in palmToFingerFeatureVector)
+        foreach(double feature in palmToFingerNormalizedFeatureVector)
         {
             completeFeatureVector.Add(feature);
         }
 
-        foreach (double feature in adjacentFingerFeatureVector)
+        foreach (double feature in adjacentFingerNormalizedFeatureVector)
         {
             completeFeatureVector.Add(feature);
         }
@@ -74,12 +74,9 @@ public class FeatureVectorPreprocessor
     {
         foreach (Hand hand in frame.Hands)
         {
-            Vector palmPosition = new Vector(hand.PalmPosition.x, hand.PalmPosition.y, 0);
-
             foreach (Finger finger in hand.Fingers)
             {
-                Vector tipPosition = new Vector(finger.TipPosition.x, finger.TipPosition.y, 0);
-                featureVectorList.Add(tipPosition.DistanceTo(palmPosition));
+                featureVectorList.Add(finger.TipPosition.DistanceTo(hand.PalmPosition));
             }
         }
     }
@@ -98,10 +95,8 @@ public class FeatureVectorPreprocessor
             for (int i = hand.Fingers.Count - 1; i > 0; i--)
             {
                 Vector currentFinger = hand.Fingers[i].TipPosition;
-                currentFinger.z = 0;
 
                 Vector previousFinger = hand.Fingers[i - 1].TipPosition;
-                previousFinger.z = 0;
 
                 featureVectorList.Add(currentFinger.DistanceTo(previousFinger));
             }

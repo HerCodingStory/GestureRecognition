@@ -15,7 +15,7 @@ public class GestureClassifier : MonoBehaviour
     [SerializeField]
     private DataService dataService;
 
-    private RandomForest classifier;
+    private KNearestNeighbors classifier;
 
     [SerializeField]
     private string modelName;
@@ -109,21 +109,23 @@ public class GestureClassifier : MonoBehaviour
         classifier = calibration.Learn(inputs, outputs);*/
 
         // Code for creating a KNN classifier
-        /*
+        
         int K = (int)(Mathf.Sqrt(inputs.GetLength(0)) / 2.0f);
         classifier = new KNearestNeighbors(k: K, distance: new Euclidean());
-        classifier.Learn(inputs, outputs);*/
+        classifier.Learn(inputs, outputs);
         
 
         // Code For creating a random forest classifier.
         
         // Create the forest learning algorithm
+        /*
         var teacher = new RandomForestLearning()
         {
             NumberOfTrees = 50,
         };
 
         classifier = teacher.Learn(inputs, outputs);
+        */
 
         saveModel();
         TrainingFinished = true;
@@ -173,8 +175,8 @@ public class GestureClassifier : MonoBehaviour
         classifier.Save(modelPath);
     }
 
-    protected RandomForest loadModel()
+    protected KNearestNeighbors loadModel()
     {
-        return Serializer.Load<RandomForest>(modelPath);
+        return Serializer.Load<KNearestNeighbors>(modelPath);
     }
 }
