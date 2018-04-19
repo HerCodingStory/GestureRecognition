@@ -69,6 +69,10 @@ public class GestureSnapshot : MonoBehaviour
     private GameObject loadingCircle;
 
     [SerializeField]
+    [Range(0.5f, 5.0f)]
+    private float recordingTime;
+
+    [SerializeField]
     private Text processingFramesText;
 
     private void Start()
@@ -80,7 +84,7 @@ public class GestureSnapshot : MonoBehaviour
         lastActiveViewState = true;
 
         isGatheringFrames = false;
-        recordingTimer = 5.0f;
+        recordingTimer = recordingTime;
 
         gestureFrames = new List<Frame>();
 
@@ -138,7 +142,7 @@ public class GestureSnapshot : MonoBehaviour
         if (recordingTimer < 0)
         {
             isGatheringFrames = false;
-            recordingTimer = 5.0f;
+            recordingTimer = recordingTime;
             GestureInputInteractable = true;
             GestureSubmitButtonInteractable = true;
             lastActiveViewState = true;

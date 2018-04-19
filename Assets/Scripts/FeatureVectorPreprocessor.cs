@@ -23,12 +23,12 @@ public class FeatureVectorPreprocessor
 
         calculateHandToFingerDistances(featureVectorList, frame);
 
-        double [] centered = Tools.Center(featureVectorList.ToArray<double>());
-        List<double> standardizedVectorList = Tools.Standardize(centered).ToList();
+        //double [] centered = Tools.Center(featureVectorList.ToArray<double>());
+        //List<double> standardizedVectorList = Tools.Standardize(centered).ToList();
 
-        getMiscellaneousFeatures(standardizedVectorList, frame);
+        getMiscellaneousFeatures(featureVectorList, frame);
 
-        FeatureVector featureVector = constructFeatureVector(standardizedVectorList);
+        FeatureVector featureVector = constructFeatureVector(featureVectorList);
 
         featureVector.NumExtendedFingers = getNumExtendedFingers(frame);
 
