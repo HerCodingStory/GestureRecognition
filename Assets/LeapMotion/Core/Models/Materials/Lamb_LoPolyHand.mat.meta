@@ -1,0 +1,19 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Materials/IntersectionCubesTransparent.mat.meta
+fileFormatVersion: 2
+guid: ec5c3b1dad54040449d2c38905fbef96
+timeCreated: 1431994582
+licenseType: Pro
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: c5b9e8be6efc5c74aad1024a1e60cc0b
+timeCreated: 1469483125
+licenseType: Pro
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Models/Materials/Lamb_LoPolyHand.mat.meta

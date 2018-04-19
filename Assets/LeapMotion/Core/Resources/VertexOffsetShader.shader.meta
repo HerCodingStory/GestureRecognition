@@ -1,0 +1,21 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/OVR/Moonlight/Resources/Unlit Transparent Color.shader.meta
+fileFormatVersion: 2
+guid: ced943c76cb8fb8489bab18c3dfcdcd3
+timeCreated: 1435284538
+licenseType: Pro
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: 874f4d9da4c976641b7758937b868fe3
+timeCreated: 1474397207
+licenseType: Pro
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Resources/VertexOffsetShader.shader.meta

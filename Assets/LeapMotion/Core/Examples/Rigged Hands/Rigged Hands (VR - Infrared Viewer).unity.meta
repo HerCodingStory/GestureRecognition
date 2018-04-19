@@ -1,0 +1,19 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Scenes/ImageHands.unity.meta
+fileFormatVersion: 2
+guid: 11f9e06e8cf470a45b885706eb99ee5f
+timeCreated: 1429841286
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: d88e9011efa39d24a9c768560b6c9bf0
+timeCreated: 1462923422
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Examples/Rigged Hands/Rigged Hands (VR - Infrared Viewer).unity.meta

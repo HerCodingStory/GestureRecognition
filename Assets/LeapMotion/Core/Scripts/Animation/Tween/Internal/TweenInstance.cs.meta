@@ -1,0 +1,27 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Scripts/Utils/EnableUpdateOrdering.cs.meta
+fileFormatVersion: 2
+guid: f7900e2b00e3543848b7bec85efbafc8
+timeCreated: 1431581108
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: ff7b2e44a9b40e143b03ad87a18d1178
+timeCreated: 1473442189
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/Animation/Tween/Internal/TweenInstance.cs.meta

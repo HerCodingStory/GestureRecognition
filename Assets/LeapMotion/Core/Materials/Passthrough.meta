@@ -1,0 +1,22 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Materials/Passthrough.meta
+fileFormatVersion: 2
+guid: 407dfe2cd55e5c449bd44803998af565
+folderAsset: yes
+timeCreated: 1429813874
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: 5f98fa10f2540e54a90098630ceb23ab
+folderAsset: yes
+timeCreated: 1522610804
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Materials/Passthrough.meta

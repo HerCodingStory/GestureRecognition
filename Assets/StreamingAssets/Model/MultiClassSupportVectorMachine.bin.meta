@@ -1,0 +1,21 @@
+<<<<<<< HEAD:Assets/StreamingAssets/Model/GestureModel.bin.meta
+fileFormatVersion: 2
+guid: 86114430d5c29874fb29317a911d8ace
+timeCreated: 1512768511
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: 2699d94e6b5a36742ac51eafc29f1005
+timeCreated: 1523022962
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/StreamingAssets/Model/MultiClassSupportVectorMachine.bin.meta

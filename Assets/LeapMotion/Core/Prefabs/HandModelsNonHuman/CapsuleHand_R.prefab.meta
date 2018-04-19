@@ -1,0 +1,19 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/DemoResources/Prefabs/BugReporter.prefab.meta
+fileFormatVersion: 2
+guid: 56a232dfb718cbf4586b16309baebe34
+timeCreated: 1432939960
+licenseType: Free
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: 39d18871c11b53c4082d8202e3db68a3
+timeCreated: 1455232307
+licenseType: Free
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Prefabs/HandModelsNonHuman/CapsuleHand_R.prefab.meta

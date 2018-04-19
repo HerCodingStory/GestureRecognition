@@ -1,0 +1,27 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Editor/AdvancedMode.cs.meta
+fileFormatVersion: 2
+guid: 3b35c1f06d0299842a1567a8426f88c2
+timeCreated: 1442865563
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+fileFormatVersion: 2
+guid: 6668d92e22171c64890b407f28aac5d7
+timeCreated: 1492025594
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/Attributes/ImplementsInterface.cs.meta
