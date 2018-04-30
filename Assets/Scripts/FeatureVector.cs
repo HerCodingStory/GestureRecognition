@@ -1,4 +1,4 @@
-﻿using SQLite4Unity3d;
+using SQLite4Unity3d;
 using System;
 using System.Reflection;
 using System.Text;

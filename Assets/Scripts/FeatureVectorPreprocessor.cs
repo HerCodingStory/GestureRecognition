@@ -1,4 +1,4 @@
-﻿using Leap;
+using Leap;
 using System;
 using System.Collections.Generic;
 using System.Linq;

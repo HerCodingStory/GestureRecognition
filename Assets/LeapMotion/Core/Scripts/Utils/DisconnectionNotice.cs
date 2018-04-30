@@ -41,8 +41,7 @@ namespace Leap.Unity{
       SetAlpha(0.0f);
     }
   
-    void SetAlpha(float alpha)
-    {
+    void SetAlpha(float alpha) {
       GetComponent<UnityEngine.UI.Image>().color = Color.Lerp(Color.clear, onColor, alpha);
     }
   

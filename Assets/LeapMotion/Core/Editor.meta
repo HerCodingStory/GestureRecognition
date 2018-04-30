@@ -1,3 +1,14 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotionVR/Scripts/Editor.meta
+fileFormatVersion: 2
+guid: 9212113d02cd47a4482c9ef5d1f9b4c6
+folderAsset: yes
+timeCreated: 1442865455
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
 fileFormatVersion: 2
 guid: 77d1a8d60dd2abe49bd2a05e6623be66
 folderAsset: yes
@@ -8,3 +19,4 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Editor.meta

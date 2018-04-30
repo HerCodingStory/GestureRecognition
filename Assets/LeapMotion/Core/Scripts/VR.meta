@@ -1,3 +1,14 @@
+<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Prefabs/HandModelsImage.meta
+fileFormatVersion: 2
+guid: 95a108806ab34924488d57adc9abe306
+folderAsset: yes
+timeCreated: 1429906623
+licenseType: Free
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
 fileFormatVersion: 2
 guid: fa5f1c29d02de0842861410c1bcd4360
 folderAsset: yes
@@ -8,3 +19,4 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+>>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/VR.meta

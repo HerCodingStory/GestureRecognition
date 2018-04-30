@@ -40,11 +40,19 @@ public class FreeMode : MonoBehaviour
 
             if (classifier.ModelExists && frame.Hands.Count > 0)
             {
-                if (!gestureVerified)
+                if(classifier.CalculateAccuracy)
+                {
+                    if (!gestureVerified)
+                    {
+                        FeatureVector featureVector = featureVectorPreprocessor.createFeatureVector(frame);
+                        GestureSign = classifier.classifyGesture(featureVector.createInputVector());
+                        gestureVerified = true;
+                    }
+                }
+                else
                 {
                     FeatureVector featureVector = featureVectorPreprocessor.createFeatureVector(frame);
                     GestureSign = classifier.classifyGesture(featureVector.createInputVector());
-                    gestureVerified = true;
                 }
             }
             else
