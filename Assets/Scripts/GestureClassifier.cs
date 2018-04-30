@@ -15,13 +15,13 @@ public class GestureClassifier : MonoBehaviour
     [SerializeField]
     private DataService dataService;
 
-    private KNearestNeighbors classifier;
+    private RandomForest classifier;
 
     [SerializeField]
     private string modelName;
 
     private string modelPath;
-    
+
     public bool ModelExists { get; set; }
     public bool TrainingFinished { get; set; }
 
@@ -38,10 +38,10 @@ public class GestureClassifier : MonoBehaviour
         modelPath = string.Format(@"Assets/StreamingAssets/Model/{0}", modelName);
     #else
             string directoryPath = string.Format("{0}/Model", Application.persistentDataPath);
-            
+
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
-            
+
             string filePath = directoryPath + "/" + modelName;
 
             if(!File.Exists(filePath))
@@ -74,7 +74,7 @@ public class GestureClassifier : MonoBehaviour
 
         createInputsAndOutputs(inputs, outputs, featureVectors);
 
-        
+
         // Code For creating a MulticlassSupportVectorMachine
         // Create the multi-class learning algorithm for the machine
         /*
@@ -109,23 +109,23 @@ public class GestureClassifier : MonoBehaviour
         classifier = calibration.Learn(inputs, outputs);*/
 
         // Code for creating a KNN classifier
-        
+        /*
         int K = (int)(Mathf.Sqrt(inputs.GetLength(0)) / 2.0f);
         classifier = new KNearestNeighbors(k: K, distance: new Euclidean());
-        classifier.Learn(inputs, outputs);
-        
+        classifier.Learn(inputs, outputs);*/
+
 
         // Code For creating a random forest classifier.
-        
+
         // Create the forest learning algorithm
-        /*
+
         var teacher = new RandomForestLearning()
         {
             NumberOfTrees = 50,
         };
 
         classifier = teacher.Learn(inputs, outputs);
-        */
+        
 
         saveModel();
         TrainingFinished = true;
@@ -152,7 +152,7 @@ public class GestureClassifier : MonoBehaviour
     {
         GeneralConfusionMatrix cm = GeneralConfusionMatrix.Estimate(classifier, testInputs.ToArray(), testOutputs.ToArray());
 
-        double error = cm.Error; 
+        double error = cm.Error;
         double accuracy = cm.Accuracy;
 
         Debug.Log("Error - " + error);
@@ -175,8 +175,8 @@ public class GestureClassifier : MonoBehaviour
         classifier.Save(modelPath);
     }
 
-    protected KNearestNeighbors loadModel()
+    protected RandomForest loadModel()
     {
-        return Serializer.Load<KNearestNeighbors>(modelPath);
+        return Serializer.Load<RandomForest>(modelPath);
     }
 }
