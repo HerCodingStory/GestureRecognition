@@ -1,13 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Scenes/BugReporter.unity.meta
-fileFormatVersion: 2
-guid: 991d62d9963db0744bbdc882c528d0ae
-timeCreated: 1433957836
-licenseType: Free
-DefaultImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: b2a27e85fe0f743e58621e6dc472edb6
 timeCreated: 1500501801
@@ -16,4 +6,3 @@ DefaultImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Plugins/LeapC.bundle/Contents/MacOS/libLeapC.dylib.meta

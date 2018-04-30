@@ -1,15 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/OVR/Scripts/Util/OVRTrackerBounds.cs.meta
-fileFormatVersion: 2
-guid: ae38dbfcc5d43bf48bb391cbb09eb48f
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: 9e0ed5922e911b343b8400997c95409c
 MonoImporter:
@@ -20,4 +8,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/RiggedHand.cs.meta

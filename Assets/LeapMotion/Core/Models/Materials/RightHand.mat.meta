@@ -1,13 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/DemoResources/Materials/HexTileFloor.mat.meta
-fileFormatVersion: 2
-guid: 87a604743bf5f40398127dbe52efcd6c
-timeCreated: 1432004403
-licenseType: Pro
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: 6abeee8e66f6d66499ebfabe3071781b
 timeCreated: 1474398997
@@ -16,4 +6,3 @@ NativeFormatImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Models/Materials/RightHand.mat.meta

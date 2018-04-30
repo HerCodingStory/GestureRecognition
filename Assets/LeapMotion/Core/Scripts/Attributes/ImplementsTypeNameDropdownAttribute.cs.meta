@@ -1,17 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Editor/LeapImageBasedMaterialEditor.cs.meta
-fileFormatVersion: 2
-guid: b1da1e7476cddc24f861a8a0c7d91608
-timeCreated: 1442868106
-licenseType: Free
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: ff4ba0093aa744142afe4f22b119d62a
 timeCreated: 1503521913
@@ -24,4 +10,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/Attributes/ImplementsTypeNameDropdownAttribute.cs.meta

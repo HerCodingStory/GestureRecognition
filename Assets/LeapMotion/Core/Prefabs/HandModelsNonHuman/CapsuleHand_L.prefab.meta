@@ -1,13 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Materials/TransparentHandMaterial.mat.meta
-fileFormatVersion: 2
-guid: da11adfb38302c04b9bc34485088d3ad
-timeCreated: 1431455365
-licenseType: Free
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: 869d20cdda15af24aab9e72b5f2eec78
 timeCreated: 1455232295
@@ -16,4 +6,3 @@ NativeFormatImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Prefabs/HandModelsNonHuman/CapsuleHand_L.prefab.meta

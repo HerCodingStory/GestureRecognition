@@ -1,17 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Scripts/Utils/KeyEnableBehaviors.cs.meta
-fileFormatVersion: 2
-guid: d896efa287f889042b52d6ce47c1bad6
-timeCreated: 1434416861
-licenseType: Pro
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: 40970788a1c77b64393d9e6e9c5087a1
 timeCreated: 1474061911
@@ -24,4 +10,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Scripts/Animation/Tween/IInterpolator.cs.meta

@@ -1,13 +1,3 @@
-<<<<<<< HEAD:Assets/LeapMotionCoreAssets/LeapMotion/Materials/IntersectionCubesOpaque.mat.meta
-fileFormatVersion: 2
-guid: 0e36234bd220e42bba124bc33e3aa654
-timeCreated: 1431542866
-licenseType: Pro
-NativeFormatImporter:
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
-=======
 fileFormatVersion: 2
 guid: 83278e7188ea55a498165e1b85cde644
 timeCreated: 1474399013
@@ -16,4 +6,3 @@ NativeFormatImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
->>>>>>> 605f8f612bc6fcba0b15f3361ad64eaf7511d55e:Assets/LeapMotion/Core/Models/Materials/LeftHand.mat.meta
