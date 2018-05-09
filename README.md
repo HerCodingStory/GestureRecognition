@@ -1,12 +1,13 @@
 # American Sign Language
 ---
 ## Requirements Software
-untity 5.x or higher
-C#
-using Accord.MachineLearning;
-using Accord.Statistics;
-using Accord.Math;
-using Accord;
+- untity 5.x or higher
+- C#
+- Accord;
+  - Accord.MachineLearning;
+  - Accord.Statistics;
+  - Accord.Math;
+  
 
 ## Requirement Hardware
 Leap Motion Device
