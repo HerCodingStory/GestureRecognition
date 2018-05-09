@@ -17,5 +17,7 @@ Leap Motion Device
 
 ---
 ## Contributors
-*Cristina Villarroel*
-*Luis Averhoff*
+1. *Cristina Villarroel*
+2. *Luis Averhoff*
+3. *Mariella Massuh*
+4. *Andy Pujol*
