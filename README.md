@@ -3,10 +3,10 @@
 ## Requirements Software
 untity 5.x or higher
 C#
-using Accord.MachineLearning.VectorMachines;
-using Accord.Statistics.Kernels;
-using Accord.MachineLearning.VectorMachines.Learning;
-using Accord.MachineLearning.DecisionTrees;
+using Accord.MachineLearning;
+using Accord.Statistics;
+using Accord.Math;
+using Accord;
 
 ## Requirement Hardware
 Leap Motion Device
